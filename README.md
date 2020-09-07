@@ -1,1 +1,1 @@
-# e-commerce_product_categorization
+# e-commerce-products-categorization
