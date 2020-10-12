@@ -1,47 +1,36 @@
 
-# catbot 2.0
+# Automatize E-commerce product categorization
 
-Catbot est un projet permettant de catégoriser automiquement des produits à partir de leur fiche produit.
-Ceci est la deuxième version.
+This project aims to automatize product categorization on a given marketplace
 
 ## Getting Started - How it works
 
-### Introduction, objectif du bot
+### Introduction
+We use here hierarchical classification and its metrics to classify e-commerce products. We only use here the description associated to the products, but in a future work we may experiment the others attributes such as titles, Brands and/or prices.
+Here we experiment 3 models. The first use fasttext document representation models and a simple neural networks as local classifier per parent node. The second the same type of word representation but use Logistic Regression as LCPN. The last model use what's we call in the litterature of hierarchical classification flat model with fasttext supervised classification model.
 
 
-Les modèle ici présentés se servent uniquement de la description pour catégoriser, les autres attributs (titre, marque, prix) peuvent facilement être inclus.
-On utilise ici 3 modèles, le modèle f_net utilisant un réseau de neuronnes comme classifieurs locaux, une regression logistique aussi comme classifieurs locaux,
-et un dernier modèle de classification plate. Le détails de ces modèles peut être retrouvé sur le mémoire placé dans dropbox.
+The project is divived in 4 parts.\
+Part 1: Read clean and normalize data.\
+Part 2: word representation with fasttext cbow model.\
+Part 3: Here we built our models: 2 hierarchical models and one flat (modèle de classification de fasttext)\
+Part 4: Prediction and models evaluation . 
 
 
-Le programme se divise en 4 grandes partie.\
-Partie 1: Lecture, nettoyage et normalisation du dataframe principal.\
-Partie 2: La représentation des documents sous forme matricielle. On utilise ici la representation de fasttext avec le modèle cbow.\
-Partie 3: La mis en place des différentes modèles. Il en a trois deux modèles hiérarchique et un modèle plat (modèle de classification de fasttext)\
-Partie 4: C'est la phase de prédiction et d'évaluation du (des) modèle(s). 
+### Folder and files
 
-
-### Fonctionnement
-Les deux premiers étapes peuvent être lancées en local (sur la vm) afin de cuillir les données d'entrées pour les différents modèles. 
-L'entrainement des modèles se fait sur sagemaker en important en s3 les données d'entrées du modèle (x_train, y_train, x_test, y_test, hierarchy, ...).
-Une fois l'entrainement fait sur sagemaker, on peut télécharger le modèle puis éffectuer les predictions en cas de besoin. Cependant l'évaluation
-des modèles peut également se faire sur sagemaker. Si vous êtes à l'aise avec sagemaker, vous pouvez directement vous servir des scripts que j'ai utilisé à cet
-effet sinon vous pouvez trouver de nombreux tutos sur le sujet.
-
-Les modèles étant souvent très lourds (en termes de capacités de stockage), il serait mieux de les charger sur le disque temporaire de la vm à chaque fois qu'on en a besoin.
-
-Dans le dossier il existe plusieurs dictionnaire dans le dossier data:\
--correspondance_ids.pickle qui fait la correspondance  entre les vrais ids et les ids artificiels (entiers) de tous les niveaux.\
--hierarchy.pickle :  qui correspond à la hiérarchie des données.\
--dico_corr_origin.pkl qui est le fichier original faisant la correspondance entre les ids et les catégories textuelles associées.\
--dico_corr.pickle qui est le nouveau dico_corr faisant la correspondance entre les ids artificiels et les catégories textuelles correspondantes.\
-Le détail sur la construction de ces derniers peut etre retrouvé dans les notebooks.
+In the working directory we create a folder (data) that contains all files needed particularly many dictionnairies such as:\
+-correspondance_ids.pickle this dico makes the link between artificial ids and the corresponding ids on the marketplace.\
+-hierarchy.pickle :  represent hierarchy of data.\
+-dico_corr_origin.pkl this dico makes the link between ids on the marketplace and the associated textual categories.\
+-dico_corr.pickle links artificial ids and the corresponding textual categories.\
 
 
 
-L'arborescence générale des fichiers du projet est la suivante :
+
+The project is structured as :
 ```bash
-catbot_new_version (ou simplement catbot)
+project_name
 ├── data
 ├── modele
 ├── data_preprocessing.py
@@ -53,17 +42,8 @@ catbot_new_version (ou simplement catbot)
 
 ## Prerequisites
 
-Une certaine familiariaté avec les modèles de machine learning et une connaissance de base de la classification hiérarchique sont nécessaire pour mener à bien ce projet.
-Pour ce qui est des modules à installer on peut bien ce referer aux modules importés (sous python 3.7)
-
-## Authors
-
-* **Nicolas BAOUAYA-MOULOMBA** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-* **Idrissa MAGASSA** - *Collaborateur* = [Idrissa](https://github.com/idrissa-mgs)
-
-## License
-
-Ce programme est la propriété de Dropix.
+Some skills are needed to understand this projects: Notions on Hierarchical classification, Understanding of Machine learning models
+The 3.7  version of python was used 
 
 ## Acknowledgments
 
